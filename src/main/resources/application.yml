@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: taf-sistema
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:taf_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+jwt:
+  secret: ${JWT_SECRET:minha-chave-secreta-super-segura-com-pelo-menos-256-bits-para-HS256}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+upload:
+  dir: ${UPLOAD_DIR:./uploads}
+  allowed-types: image/jpeg,image/png,application/pdf
+
+webhook:
+  enabled: ${WEBHOOK_ENABLED:false}
+  url: ${WEBHOOK_URL:}
+  secret: ${WEBHOOK_SECRET:}
+
+server:
+  port: ${PORT:8080}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+logging:
+  level:
+    com.exercito.taf: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
